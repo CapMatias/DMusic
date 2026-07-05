@@ -32,7 +32,7 @@ export function Player({ musicPath, onSongEnd, autoPlay }: PlayerProps) {
     setDuration(0);
 
     const audio = new Audio(import.meta.env.BASE_URL + musicPath.replace(/^\//, ''));
-    audio.preload = 'metadata';
+    audio.preload = 'auto';
     audioRef.current = audio;
 
     const updateUI = () => {
