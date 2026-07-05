@@ -68,9 +68,10 @@ void main() {
 
 export function NeuralBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   useEffect(() => {
-    if (window.innerWidth < 768) return;
+    if (isMobile) return;
 
     const canvasEl = canvasRef.current;
     if (!canvasEl) return;
@@ -162,6 +163,8 @@ export function NeuralBackground() {
       window.removeEventListener('touchmove', handleTouchMove);
     };
   }, []);
+
+  if (isMobile) return null;
 
   return (
     <canvas

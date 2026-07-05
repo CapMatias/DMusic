@@ -76,7 +76,7 @@ export default function App() {
 
   return (
     <div 
-      className="h-full text-white relative"
+      className="h-full flex flex-col text-white relative"
       style={{
         background: 'transparent',
         zIndex: 1,
