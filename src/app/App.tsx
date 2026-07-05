@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { CoverFlow } from './components/CoverFlow';
 import { SearchBar } from './components/SearchBar';
 import { Player } from './components/Player';
+import { NeuralBackground } from './components/NeuralBackground';
 import { useMusicStore } from './store/musicStore';
 import { localAlbumService } from './services/localAlbumService';
-import { useFastAlbumCovers } from './hooks/useFastAlbumCovers';
+import { Song } from './types/Song';
 import { toast } from 'sonner';
 
 export default function App() {
@@ -21,18 +22,6 @@ export default function App() {
     setIsPlaying, 
     setCurrentIndex 
   } = useMusicStore();
-
-  const {
-    getCover,
-    isLoading,
-    loadedCount,
-    totalSongs,
-    loadingProgress
-  } = useFastAlbumCovers({
-    songs,
-    centerIndex: currentIndex,
-    preloadRadius: 4
-  });
 
   useEffect(() => {
     fetchSongs('');
@@ -64,32 +53,40 @@ export default function App() {
     setIsPlaying(playing);
   };
 
+  const getCover = useCallback((song: Song): string | null => {
+    return song.albumCover || null;
+  }, []);
+
+  const handleSongEnd = useCallback(() => {
+    const state = useMusicStore.getState();
+    const { songs, currentIndex } = state;
+    if (songs.length === 0) return;
+    const nextIndex = (currentIndex + 1) % songs.length;
+    const nextSong = songs[nextIndex];
+    state.setSelectedSong(nextSong);
+    state.setCurrentIndex(nextIndex);
+    state.setIsPlaying(true);
+  }, []);
+
   const totalSongsCount = localAlbumService.getTotalSongCount();
   const displayText = searchQuery 
     ? `${songs.length} resultados para "${searchQuery}"`
-    : `Top ${totalSongsCount} Tendências`;
+    : `As melhores de 2018 de Daniel`;
 
   return (
     <div 
       className="h-screen text-white overflow-hidden relative"
       style={{
-        background: 'linear-gradient(to bottom, #000000 0%, #111111 100%)',
+        background: 'transparent',
         zIndex: 1,
         position: 'relative',
         width: '100vw',
         height: '100vh',
-        isolation: 'isolate'
+        isolation: 'isolate',
+        overflowX: 'hidden'
       }}
     >
-      <div 
-        className="fixed bottom-0 left-0 right-0 h-1/2 pointer-events-none"
-        style={{
-          background: 'linear-gradient(to top, rgba(255,255,255,0.02) 0%, transparent 100%)',
-          transform: 'perspective(1000px) rotateX(60deg)',
-          transformOrigin: 'bottom',
-          zIndex: 1
-        }}
-      />
+      <NeuralBackground />
       
       <div className="relative flex items-center justify-between p-4 bg-black/20 backdrop-blur-md" style={{ zIndex: 500 }}>
         <div className="flex items-center gap-2">
@@ -114,7 +111,7 @@ export default function App() {
         <SearchBar onSearch={handleSearch} />
       </div>
       
-      <div className="relative flex-1 flex flex-col items-center justify-center px-4 md:px-8 pb-16" style={{ zIndex: 200, height: 'calc(100vh - 140px)' }}>
+      <div className="relative flex-1 flex flex-col items-center justify-center px-4 md:px-8 pb-8 md:pb-8" style={{ zIndex: 200 }}>
         {loading ? (
           <div className="flex flex-col items-center justify-center gap-4">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400"></div>
@@ -152,27 +149,28 @@ export default function App() {
               selectedSong={selectedSong}
               isPlaying={isPlaying}
               getCover={getCover}
-              isLoading={isLoading}
             />
             
             {selectedSong && (
-              <div className="mt-8 text-center relative" style={{ zIndex: 250 }}>
-                <div className="bg-transparent p-2">
-                  <h2 className="text-xl font-light mb-2 text-white drop-shadow-lg">
+              <div className="mt-6 md:mt-6 text-center relative" style={{ zIndex: 250 }}>
+                <div className="bg-transparent p-1 md:p-2">
+                  <h2 className="text-lg md:text-xl font-light mb-1 md:mb-2 text-white drop-shadow-lg">
                     {selectedSong.title}
                   </h2>
-                  <p className="text-base mb-1 font-light text-gray-300 drop-shadow-md">
+                  <p className="text-sm md:text-base mb-1 font-light text-gray-300 drop-shadow-md">
                     {selectedSong.artist}
                   </p>
                   {selectedSong.albumName && (
-                    <p className="text-sm mb-4 font-light text-gray-400 drop-shadow-md">
+                    <p className="text-xs md:text-sm mb-2 md:mb-4 font-light text-gray-400 drop-shadow-md">
                       do álbum {selectedSong.albumName} {selectedSong.year && `(${selectedSong.year})`}
                     </p>
                   )}
-                  <Player 
-                    youtubeId={selectedSong.youtubeId} 
-                    onPlayingChange={handlePlayingChange}
-                  />
+                   <Player 
+                     musicPath={selectedSong.musicPath} 
+                     onSongEnd={handleSongEnd}
+                     autoPlay={isPlaying}
+                   />
+
                 </div>
               </div>
             )}

@@ -45,7 +45,6 @@ interface CoverFlowProps {
   selectedSong: Song | null;
   isPlaying?: boolean;
   getCover?: (song: Song) => string | null;
-  isLoading?: (songId: string) => boolean;
 }
 
 export function CoverFlow({ 
@@ -54,7 +53,6 @@ export function CoverFlow({
   selectedSong, 
   isPlaying = false,
   getCover,
-  isLoading
 }: CoverFlowProps) {
   const [currentIndex, setCurrentIndex] = useState(() => Math.floor(songs.length / 2));
   const [isDragging, setIsDragging] = useState(false);
@@ -135,26 +133,15 @@ export function CoverFlow({
     setIsDragging(false);
     
     const threshold = 50;
-    const velocityThreshold = 0.5;
-    const highVelocityThreshold = 2.0;
     
     let targetIndex = currentIndex;
     const dragDistance = Math.abs(dragOffset);
-    const dragVelocity = Math.abs(velocity);
     
-    if (dragDistance > threshold || dragVelocity > velocityThreshold) {
-      let jumpCount = 1;
-      if (dragVelocity > highVelocityThreshold) {
-        jumpCount = Math.min(2, Math.ceil(dragVelocity / 1.5));
-      }
-      if (dragDistance > threshold * 2) {
-        jumpCount = Math.max(jumpCount, Math.floor(dragDistance / (threshold * 1.5)));
-      }
-      
-      if (dragOffset < 0 || velocity < -velocityThreshold) {
-        targetIndex = Math.min(songs.length - 1, currentIndex + jumpCount);
-      } else if (dragOffset > 0 || velocity > velocityThreshold) {
-        targetIndex = Math.max(0, currentIndex - jumpCount);
+    if (dragDistance > threshold) {
+      if (dragOffset < 0) {
+        targetIndex = Math.min(songs.length - 1, currentIndex + 1);
+      } else {
+        targetIndex = Math.max(0, currentIndex - 1);
       }
     }
     
@@ -202,11 +189,13 @@ export function CoverFlow({
     const baseOffset = index - currentIndex;
     const offset = baseOffset + (isDragging ? dragOffset / 100 : 0);
     
-    const SPACING = isMobile ? 120 : 160;
+    const SPACING = isMobile ? 120 : 110;
     const ROTATION = 55;
     
     if (Math.abs(offset) < 0.1) {
-      return `translateX(0px) translateZ(300px) rotateY(0deg) scale(1.3)`;
+      const scale = isMobile ? 1.3 : 1.15;
+      const z = isMobile ? 300 : 200;
+      return `translateX(0px) translateZ(${z}px) rotateY(0deg) scale(${scale})`;
     } else if (offset < 0) {
       const distance = Math.abs(offset);
       const x = -SPACING * distance;
@@ -256,14 +245,15 @@ export function CoverFlow({
 
 
   return (
-    <div className="w-full max-w-7xl mx-auto relative" style={{ zIndex: 300 }}>
+      <div className="w-full max-w-7xl mx-auto relative" style={{ zIndex: 300 }}>
       <div 
         ref={containerRef}
-        className="relative h-96 flex items-center justify-center overflow-visible select-none"
+        className="relative h-64 md:h-[220px] flex items-center justify-center select-none"
         style={{ 
           perspective: '1500px',
           perspectiveOrigin: 'center center',
-          cursor: isDragging ? 'grabbing' : 'grab'
+          cursor: isDragging ? 'grabbing' : 'grab',
+          touchAction: 'none'
         }}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -307,6 +297,14 @@ export function CoverFlow({
                       boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1)',
                       userSelect: 'none'
                     }}
+                    onError={(e) => {
+                      const img = e.currentTarget;
+                      if (img.src.includes('300x300bb')) {
+                        img.src = img.src.replace('300x300bb', '100x100bb');
+                      } else {
+                        img.style.display = 'none';
+                      }
+                    }}
                   />
                 ) : (
                   <div 
@@ -316,19 +314,12 @@ export function CoverFlow({
                       userSelect: 'none'
                     }}
                   >
-                    {isLoading && isLoading(song.id) ? (
-                      <div className="w-full h-full animate-pulse bg-gray-800 rounded-lg flex items-center justify-center">
-                        <div className="w-12 h-12 rounded-full bg-gray-700 animate-ping opacity-20"></div>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center gap-2 text-white/40">
-                        <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-                        </svg>
-                        <span className="text-xs text-center px-2">{song.artist}</span>
-                      </div>
-                    )}
-
+                    <div className="flex flex-col items-center gap-2 text-white/40">
+                      <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                      </svg>
+                      <span className="text-xs text-center px-2">{song.artist}</span>
+                    </div>
                   </div>
                 )}
                 
@@ -339,19 +330,13 @@ export function CoverFlow({
                   }}
                 />
                 
-                <ReflectionComponent 
-                  song={song}
-                  index={index}
-                  currentIndex={currentIndex}
-                  getCover={getCover}
-                />
                 
                 <div 
                   className="absolute top-full left-0 w-full h-3 rounded-lg pointer-events-none select-none transition-opacity duration-1000"
                   style={{
-                    background: 'linear-gradient(to bottom, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.12) 40%, transparent 100%)',
+                    background: 'transparent',
                     transform: 'translateY(6px)',
-                    opacity: index === currentIndex ? '0.6' : '0.35'
+                    opacity: 0
                   }}
                 />
                 

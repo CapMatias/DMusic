@@ -21,6 +21,6 @@ export function useResponsive() {
   return {
     isMobile,
     windowWidth,
-    albumSize: isMobile ? 170 : 200, // Optimized for closer arrangement with prominent center
+    albumSize: isMobile ? 170 : 140, // Compacto para caber sem scroll
   };
 }

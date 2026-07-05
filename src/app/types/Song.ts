@@ -3,7 +3,7 @@ export interface Song {
   title: string;
   artist: string;
   albumCover: string;
-  youtubeId: string;
+  musicPath: string;
   albumName?: string;
   year?: number;
 }

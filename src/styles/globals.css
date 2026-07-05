@@ -196,6 +196,7 @@ html, body {
   height: 100% !important;
   overflow-x: hidden !important;
   position: relative !important;
+  background-color: #151912 !important;
 }
 
 /* Root container must have proper positioning */
@@ -219,17 +220,6 @@ iframe {
   transform: translateZ(0) !important; /* Force hardware acceleration */
 }
 
-/* Prevent any container from constraining the background video */
-body * {
-  z-index: auto;
-}
-
-/* Ensure no element can interfere with background video positioning */
-body > * {
-  position: relative;
-  z-index: 1;
-}
-
 /* Background video portal positioning */
 #background-video-portal {
   position: fixed !important;
@@ -248,6 +238,7 @@ body > * {
   html, body, #root {
     width: 100vw !important;
     height: 100vh !important;
+    height: 100dvh !important;
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;

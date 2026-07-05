@@ -2,477 +2,176 @@ export interface AlbumData {
   id: string;
   title: string;
   artist: string;
-  youtubeId: string;
+  musicPath: string;
   albumCover: string;
   albumName?: string;
   year?: number;
 }
 
-// Local database of top 50 trending songs - covers loaded dynamically from iTunes API
-// Fast loading with real Apple Music artwork - Last update: December 2024
 export const ALBUMS_DATABASE: AlbumData[] = [
-  // #1-10
   {
     id: '1',
-    title: 'Anti-Hero',
-    artist: 'Taylor Swift',
-    youtubeId: 'b1kbLWvqugk',
-    albumName: 'Midnights',
-    year: 2022,
-    albumCover: '' // Loaded dynamically from iTunes API
+    title: 'Black Coast - TRNDSTTR (Lucian Remix)',
+    artist: 'Black Coast',
+    musicPath: '/music/song1.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/09/24/b8/0924b836-668e-bc9f-00fe-d8f5e5380f9d/0617465692550.jpg/300x300bb.jpg'
   },
   {
     id: '2',
-    title: 'Flowers',
-    artist: 'Miley Cyrus',
-    youtubeId: 'G7KNmW9a75Y',
-    albumName: 'Endless Summer Vacation',
-    year: 2023,
-    albumCover: ''
+    title: 'Bruno Mars - That s What I Like (Cabuizee Trap Remix)',
+    artist: 'Bruno Mars',
+    musicPath: '/music/song2.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/e3/47/a0/e347a0cc-87ce-5d05-d560-176c7d48f66e/075679904119.jpg/300x300bb.jpg'
   },
   {
     id: '3',
-    title: 'Unholy',
-    artist: 'Sam Smith',
-    youtubeId: 'Uq9gPaIzbe8',
-    albumName: 'Gloria',
-    year: 2023,
-    albumCover: ''
+    title: 'Cardi B, Bad Bunny & J Balvin - I Like It (BEAUZ Remix)',
+    artist: 'Cardi B',
+    musicPath: '/music/song3.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/ca/58/e5/ca58e5e3-acb7-8ca3-6af9-ad63af3b71f1/075679873675.jpg/300x300bb.jpg'
   },
   {
     id: '4',
-    title: 'As It Was',
-    artist: 'Harry Styles',
-    youtubeId: 'H5v3kku4y6Q',
-    albumName: "Harry's House",
-    year: 2022,
-    albumCover: ''
+    title: 'Charlie Puth - Attention (Joe Slay Remix)',
+    artist: 'Charlie Puth',
+    musicPath: '/music/song4.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a8/e2/1b/a8e21b3b-9c8d-2974-2318-6bcd4c9d2370/075679884336.jpg/300x300bb.jpg'
   },
   {
     id: '5',
-    title: 'Heat Waves',
-    artist: 'Glass Animals',
-    youtubeId: 'mRD0-GxqHVo',
-    albumName: 'Dreamland',
-    year: 2020,
-    albumCover: ''
+    title: 'Chemical Surf - Hey Hey Hey (Original Mix)',
+    artist: 'Chemical Surf',
+    musicPath: '/music/song5.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/7a/7e/ce/7a7ecee3-6d04-4b0d-fc73-e2a8e0959681/cover.jpg/300x300bb.jpg'
   },
   {
     id: '6',
-    title: 'Stay',
-    artist: 'The Kid LAROI',
-    youtubeId: 'kTJczUoc26U',
-    albumName: 'F*CK LOVE 3: OVER YOU',
-    year: 2021,
-    albumCover: ''
+    title: 'Daft Punk - Harder, Better, Faster, Stronger (Far Out Remix)',
+    artist: 'Daft Punk',
+    musicPath: '/music/song6.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/fd/4a/77/fd4a77db-0ebc-d043-41a2-f32fa1bb0fb4/dj.qrikkdwj.jpg/300x300bb.jpg'
   },
   {
     id: '7',
-    title: 'Industry Baby',
-    artist: 'Lil Nas X',
-    youtubeId: 'UTHLKHL_whs',
-    albumName: 'MONTERO',
-    year: 2021,
-    albumCover: ''
+    title: 'Dillon Francis & DJ Snake - Get Low',
+    artist: 'Dillon Francis',
+    musicPath: '/music/song7.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/36/93/33/36933300-8b4b-54e6-a769-86cf41224ae4/dj.wqaosoav.jpg/300x300bb.jpg'
   },
   {
     id: '8',
-    title: 'Good 4 U',
-    artist: 'Olivia Rodrigo',
-    youtubeId: 'gNi_6U5Pm_o',
-    albumName: 'SOUR',
-    year: 2021,
-    albumCover: ''
+    title: 'Dimitri Vegas, Martin Garrix, Like Mike - Tremor (Official Music Video)',
+    artist: 'Dimitri Vegas',
+    musicPath: '/music/song8.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/ed/0b/94/ed0b9440-0cdb-0bd9-3049-6b6a75297f4e/8712944577877.jpg/300x300bb.jpg'
   },
   {
     id: '9',
-    title: 'Levitating',
-    artist: 'Dua Lipa',
-    youtubeId: 'TUVcZfQe-Kw',
-    albumName: 'Future Nostalgia',
-    year: 2020,
-    albumCover: ''
+    title: 'Diplo - Revolution (SEAN&BOBO REMIX)',
+    artist: 'Diplo',
+    musicPath: '/music/song9.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/06/6e/fe/066efe07-5469-0ca7-8e13-842d94df5f02/DIPLO_RWBE_1800.jpg/300x300bb.jpg'
   },
   {
     id: '10',
-    title: 'Blinding Lights',
-    artist: 'The Weeknd',
-    youtubeId: '4NRXx6U8ABQ',
-    albumName: 'After Hours',
-    year: 2020,
-    albumCover: ''
+    title: 'Drake - In My Feelings (VAVO & Steve Reece Remix)',
+    artist: 'Drake',
+    musicPath: '/music/song10.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/bb/6d/8f/bb6d8f67-6d04-10b5-dd62-eb5809ac54fc/00602567879152.rgb.jpg/300x300bb.jpg'
   },
-
-  // #11-20
   {
     id: '11',
-    title: 'Peaches',
-    artist: 'Justin Bieber',
-    youtubeId: 'tQ0yjYUFKAE',
-    albumName: 'Justice',
-    year: 2021,
-    albumCover: ''
+    title: 'Dua Lipa - Last Dance (Custic Remix)',
+    artist: 'Dua Lipa',
+    musicPath: '/music/song11.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/c1/54/2d/c1542d45-c6c2-12ca-7308-6eacd762c562/190295807870.jpg/300x300bb.jpg'
   },
   {
     id: '12',
-    title: 'Watermelon Sugar',
-    artist: 'Harry Styles',
-    youtubeId: 'E07s5ZYygMg',
-    albumName: 'Fine Line',
-    year: 2019,
-    albumCover: ''
+    title: 'Eiffel 65 - Blue (KNY Factory Remix)',
+    artist: 'Eiffel 65',
+    musicPath: '/music/song12.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a9/ec/b3/a9ecb373-0ea0-4117-9a68-03f513bae597/mzi.iwxdpjun.jpg/300x300bb.jpg'
   },
   {
     id: '13',
-    title: 'Bad Habit',
-    artist: 'Steve Lacy',
-    youtubeId: 'VF-r5TtlT9w',
-    albumName: 'Gemini Rights',
-    year: 2022,
-    albumCover: ''
+    title: 'Foster the People - Pumped up Kicks (Bridge and Law Remix)',
+    artist: 'Foster the People',
+    musicPath: '/music/song13.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/ba/07/5b/ba075b3c-f0c4-b519-59f3-7ae74d43246b/dj.lajxsvkg.jpg/300x300bb.jpg'
   },
   {
     id: '14',
-    title: 'About Damn Time',
-    artist: 'Lizzo',
-    youtubeId: 'nQwbnAdee5I',
-    albumName: 'Special',
-    year: 2022,
-    albumCover: ''
+    title: 'Khalid & Normani - Love Lies (Medasin Remix)',
+    artist: 'Khalid & Normani',
+    musicPath: '/music/song14.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/c1/5d/9b/c15d9bc5-4181-9874-d65b-7741203ccad6/190295567279.jpg/300x300bb.jpg'
   },
   {
     id: '15',
-    title: 'Running Up That Hill',
-    artist: 'Kate Bush',
-    youtubeId: 'wp43OdtAAkM',
-    albumName: 'Hounds of Love',
-    year: 1985,
-    albumCover: ''
+    title: 'Marshmello & Anne Marie - Friends (Justin Caruso Remix)',
+    artist: 'Marshmello & Anne Marie',
+    musicPath: '/music/song15.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/32/4f/fd/324ffda2-9e51-8f6a-0c2d-c6fd2b41ac55/074643811224.jpg/300x300bb.jpg'
   },
   {
     id: '16',
-    title: 'First Class',
-    artist: 'Jack Harlow',
-    youtubeId: 'XHbAOLLl6lg',
-    albumName: 'Come Home the Kids Miss You',
-    year: 2022,
-    albumCover: ''
+    title: 'Michael Jackson - Beat It (Basé Trap Remix)',
+    artist: 'Michael Jackson',
+    musicPath: '/music/song16.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/32/4f/fd/324ffda2-9e51-8f6a-0c2d-c6fd2b41ac55/074643811224.jpg/300x300bb.jpg'
   },
   {
     id: '17',
-    title: 'Break My Soul',
-    artist: 'Beyoncé',
-    youtubeId: 'yjki-9Pthh0',
-    albumName: 'Renaissance',
-    year: 2022,
-    albumCover: ''
+    title: 'Ping Pong Mammoth (Dimitri Vegas & Like Mike Mashup)[Timmy Turner Remake]',
+    artist: 'Ping Pong Mammoth',
+    musicPath: '/music/song17.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music128/v4/ed/0b/94/ed0b9440-0cdb-0bd9-3049-6b6a75297f4e/8712944577877.jpg/300x300bb.jpg'
   },
   {
     id: '18',
-    title: 'Super Gremlin',
-    artist: 'Kodak Black',
-    youtubeId: 'aYNmZoxp3Z8',
-    albumName: 'Back for Everything',
-    year: 2022,
-    albumCover: ''
+    title: 'Post Malone ft. Ty Dolla $ign - Psycho (it s different Remix)',
+    artist: 'Post Malone',
+    musicPath: '/music/song18.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/5a/52/ff/5a52ffce-5ff5-6901-bc31-6dfa2a789100/23UMGIM42184.rgb.jpg/300x300bb.jpg'
   },
   {
     id: '19',
-    title: 'Woman',
-    artist: 'Doja Cat',
-    youtubeId: 'aOUkWoXXgTE',
-    albumName: 'Planet Her',
-    year: 2021,
-    albumCover: ''
+    title: 'Rihanna - Needed Me (LENNY Remix)',
+    artist: 'Rihanna',
+    musicPath: '/music/song19.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/9c/da/90/9cda90c9-df1a-078b-319c-bdf2801e8d1f/16UMGIM03373.rgb.jpg/300x300bb.jpg'
   },
   {
     id: '20',
-    title: 'Shivers',
-    artist: 'Ed Sheeran',
-    youtubeId: 'Il0S8BoucSA',
-    albumName: '=',
-    year: 2021,
-    albumCover: ''
+    title: 'Stephen - Crossfire (KC Audio Remix)',
+    artist: 'Stephen',
+    musicPath: '/music/song20.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/fb/bc/6a/fbbc6afb-a440-2093-733a-d31c60aeac87/859717044315_cover.jpg/300x300bb.jpg'
   },
-
-  // #21-30
   {
     id: '21',
-    title: 'Ghost',
-    artist: 'Justice',
-    youtubeId: 'Jrg9KxGNeJY',
-    albumName: 'Cross',
-    year: 2007,
-    albumCover: ''
+    title: 'TRAP - Calli Boom & Swill - Impact (No Copyright)',
+    artist: 'Calli Boom & Swill',
+    musicPath: '/music/song21.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/45/98/7a/45987a98-2091-73ff-0e85-a1ee698214c6/053000217572_cover.jpg/300x300bb.jpg'
   },
   {
     id: '22',
-    title: 'Dynamite',
-    artist: 'BTS',
-    youtubeId: 'gdZLi9oWNZg',
-    albumName: 'BE',
-    year: 2020,
-    albumCover: ''
+    title: 'TWRK - BaDINGA!',
+    artist: 'TWRK',
+    musicPath: '/music/song22.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/2f/a1/19/2fa119f8-eddd-85eb-79fe-020497c0abd7/812388025809.jpg/300x300bb.jpg'
   },
   {
     id: '23',
-    title: 'Savage',
-    artist: 'Megan Thee Stallion',
-    youtubeId: 'EOxj2ROIxok',
-    albumName: 'Good News',
-    year: 2020,
-    albumCover: ''
-  },
-  {
-    id: '24',
-    title: 'Mood',
-    artist: '24kGoldn',
-    youtubeId: 'GGGu4ceFMe4',
-    albumName: 'El Dorado',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '25',
-    title: 'Positions',
-    artist: 'Ariana Grande',
-    youtubeId: 'tcYodQoapMg',
-    albumName: 'Positions',
-    year: 2020,
-    albumCover: ''
-  },
-  {
-    id: '26',
-    title: 'Drivers License',
-    artist: 'Olivia Rodrigo',
-    youtubeId: 'ZmDBbnmKpqQ',
-    albumName: 'SOUR',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '27',
-    title: 'Therefore I Am',
-    artist: 'Billie Eilish',
-    youtubeId: 'RUQl6YcMalg',
-    albumName: 'Happier Than Ever',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '28',
-    title: 'Rockstar',
-    artist: 'DaBaby',
-    youtubeId: 'mxFstYSbBmc',
-    albumName: 'Blame It on Baby',
-    year: 2020,
-    albumCover: ''
-  },
-  {
-    id: '29',
-    title: 'Circles',
-    artist: 'Post Malone',
-    youtubeId: 'wXhTHyIgQ_U',
-    albumName: "Hollywood's Bleeding",
-    year: 2019,
-    albumCover: ''
-  },
-  {
-    id: '30',
-    title: 'Deja Vu',
-    artist: 'Olivia Rodrigo',
-    youtubeId: '_D8PbAqPL0E',
-    albumName: 'SOUR',
-    year: 2021,
-    albumCover: ''
-  },
-
-  // #31-40
-  {
-    id: '31',
-    title: 'Montero',
-    artist: 'Lil Nas X',
-    youtubeId: '6swmTBVI83k',
-    albumName: 'MONTERO',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '32',
-    title: 'Traitor',
-    artist: 'Olivia Rodrigo',
-    youtubeId: 'EiAcDuoyT4U',
-    albumName: 'SOUR',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '33',
-    title: 'Kiss Me More',
-    artist: 'Doja Cat',
-    youtubeId: '0EVVKs6DQLo',
-    albumName: 'Planet Her',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '34',
-    title: 'We Dont Talk About Bruno',
-    artist: 'Encanto Cast',
-    youtubeId: 'bvWRMAU6V-c',
-    albumName: 'Encanto',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '35',
-    title: 'Surface Pressure',
-    artist: 'Jessica Darrow',
-    youtubeId: '8-8GGZ1AsLs',
-    albumName: 'Encanto',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '36',
-    title: 'Easy On Me',
-    artist: 'Adele',
-    youtubeId: 'X-yIEMduRXk',
-    albumName: '30',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '37',
-    title: 'My Universe',
-    artist: 'Coldplay',
-    youtubeId: '3YqPKLZF_WU',
-    albumName: 'Music of the Spheres',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '38',
-    title: 'Good Ones',
-    artist: 'Charli XCX',
-    youtubeId: 'r3gEPyqLk_I',
-    albumName: 'CRASH',
-    year: 2022,
-    albumCover: ''
-  },
-  {
-    id: '39',
-    title: 'Beggin',
-    artist: 'Måneskin',
-    youtubeId: 'RVH5dn1cxAQ',
-    albumName: 'Teatro d\'ira: Vol. I',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '40',
-    title: 'Bad Habits',
-    artist: 'Ed Sheeran',
-    youtubeId: 'orJSJGHjBLI',
-    albumName: '=',
-    year: 2021,
-    albumCover: ''
-  },
-
-  // #41-50
-  {
-    id: '41',
-    title: 'Happier Than Ever',
-    artist: 'Billie Eilish',
-    youtubeId: '5GJWxDKyk3A',
-    albumName: 'Happier Than Ever',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '42',
-    title: 'Love Nwantiti',
-    artist: 'CKay',
-    youtubeId: 'doLMt10ytHY',
-    albumName: 'Boyfriend',
-    year: 2022,
-    albumCover: ''
-  },
-  {
-    id: '43',
-    title: 'Good as Hell',
-    artist: 'Lizzo',
-    youtubeId: 'SmbmeOgWsqE',
-    albumName: 'Cuz I Love You',
-    year: 2019,
-    albumCover: ''
-  },
-  {
-    id: '44',
-    title: 'Brutal',
-    artist: 'Olivia Rodrigo',
-    youtubeId: '_D8PbAqPL0E',
-    albumName: 'SOUR',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '45',
-    title: 'Need to Know',
-    artist: 'Doja Cat',
-    youtubeId: 'rZsGc3h3PhY',
-    albumName: 'Planet Her',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '46',
-    title: 'Butter',
-    artist: 'BTS',
-    youtubeId: 'WMweEpGlu_U',
-    albumName: 'Butter',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '47',
-    title: 'Permission to Dance',
-    artist: 'BTS',
-    youtubeId: 'CuklIb9d3fI',
-    albumName: 'Butter',
-    year: 2021,
-    albumCover: ''
-  },
-  {
-    id: '48',
-    title: 'Glimpse of Us',
-    artist: 'Joji',
-    youtubeId: 'FjHGZj2IjBk',
-    albumName: 'SMITHEREENS',
-    year: 2022,
-    albumCover: ''
-  },
-  {
-    id: '49',
-    title: 'Espresso',
-    artist: 'Sabrina Carpenter',
-    youtubeId: 'gKIlLmUsoL8',
-    albumName: 'Short n Sweet',
-    year: 2024,
-    albumCover: ''
-  },
-  {
-    id: '50',
-    title: 'Vampire',
-    artist: 'Olivia Rodrigo',
-    youtubeId: 'RlPNh_PBZb4',
-    albumName: 'GUTS',
-    year: 2023,
-    albumCover: ''
+    title: 'Waka Flocka - No Handz (CRNKN Remix)',
+    artist: 'Waka Flocka',
+    musicPath: '/music/song23.mp3',
+    albumCover: 'https://is1-ssl.mzstatic.com/image/thumb/Music/9a/de/be/mzi.cwahynma.jpg/300x300bb.jpg'
   }
 ];
 
-// Helper functions for database operations
 export const getAlbumById = (id: string): AlbumData | undefined => {
   return ALBUMS_DATABASE.find(album => album.id === id);
 };
@@ -496,7 +195,6 @@ export const getAllAlbums = (): AlbumData[] => {
   return ALBUMS_DATABASE;
 };
 
-// Get random subset of albums
 export const getRandomAlbums = (count: number): AlbumData[] => {
   const shuffled = [...ALBUMS_DATABASE].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);

@@ -15,7 +15,7 @@ const convertAlbumToSong = (album: AlbumData): Song => {
     title: album.title,
     artist: album.artist,
     albumCover: album.albumCover,
-    youtubeId: album.youtubeId,
+    musicPath: album.musicPath,
     albumName: album.albumName,
     year: album.year
   };
