@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 interface PlayerProps {
   musicPath: string;
@@ -47,23 +47,14 @@ export function Player({ musicPath, onSongEnd, autoPlay }: PlayerProps) {
       }
     };
 
-    const onCanPlay = () => {
+    const onReady = () => {
       setIsReady(true);
       setDuration(audio.duration);
-      if (autoPlayRef.current) {
-        audio.play().then(() => {
-          setIsPlaying(true);
-          rafRef.current = requestAnimationFrame(updateUI);
-        }).catch(() => {});
-      }
     };
 
-    audio.addEventListener('canplay', onCanPlay);
-    audio.addEventListener('loadeddata', onCanPlay);
-    audio.addEventListener('error', () => {
-      setIsReady(true);
-      setDuration(0);
-    });
+    audio.addEventListener('loadedmetadata', onReady);
+    audio.addEventListener('canplay', onReady);
+    audio.addEventListener('error', () => setIsReady(true));
 
     audio.addEventListener('play', () => {
       setIsPlaying(true);
@@ -91,15 +82,21 @@ export function Player({ musicPath, onSongEnd, autoPlay }: PlayerProps) {
     };
   }, [musicPath]);
 
-  const handleTogglePlay = () => {
+  const handleTogglePlay = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
+
     if (audio.paused) {
-      audio.play().catch(() => {});
+      if (audio.readyState < 2) {
+        audio.load();
+      }
+      audio.play().then(() => {
+        setDuration(audio.duration);
+      }).catch(() => {});
     } else {
       audio.pause();
     }
-  };
+  }, []);
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const time = parseFloat(e.target.value);
@@ -126,12 +123,7 @@ export function Player({ musicPath, onSongEnd, autoPlay }: PlayerProps) {
           onClick={handleTogglePlay}
           className="w-12 h-12 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-transform"
         >
-          {!isReady ? (
-            <svg className="w-5 h-5 text-black animate-spin" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-              <path className="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-            </svg>
-          ) : !isPlaying ? (
+          {!isPlaying ? (
             <svg className="w-5 h-5 text-black ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           ) : (
             <svg className="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
@@ -161,7 +153,7 @@ export function Player({ musicPath, onSongEnd, autoPlay }: PlayerProps) {
       </div>
 
       <p className="text-[10px] text-gray-400">
-        {!isReady ? 'Carregando...' : isPlaying ? 'Tocando' : 'Toque para ouvir'}
+        {isPlaying ? 'Tocando' : 'Toque para ouvir'}
       </p>
     </div>
   );
