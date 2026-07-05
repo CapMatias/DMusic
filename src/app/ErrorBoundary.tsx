@@ -25,10 +25,11 @@ export class ErrorBoundary extends React.Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
+      const errMsg = this.state.error?.message || String(this.state.error);
       return (
         <div style={{
-          height: '100vh',
-          height: '100dvh',
+          minHeight: '100vh',
+          minHeight: '100dvh',
           background: '#151912',
           color: '#fff',
           display: 'flex',
@@ -39,12 +40,9 @@ export class ErrorBoundary extends React.Component<Props, State> {
           padding: '20px',
           textAlign: 'center',
         }}>
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ marginBottom: '16px', opacity: 0.6 }}>
-            <path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"/>
-          </svg>
           <h2 style={{ fontSize: '18px', fontWeight: 300, marginBottom: '8px' }}>DMusic</h2>
-          <p style={{ fontSize: '14px', opacity: 0.6, marginBottom: '16px' }}>
-            Algo deu errado. Tente recarregar a página.
+          <p style={{ fontSize: '12px', opacity: 0.5, marginBottom: '12px', wordBreak: 'break-all', maxWidth: '300px' }}>
+            {errMsg}
           </p>
           <button
             onClick={() => window.location.reload()}
