@@ -1,8 +1,18 @@
 import { useState, useEffect } from 'react';
 
+function getIsMobile() {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth < 768;
+}
+
+function getWindowWidth() {
+  if (typeof window === 'undefined') return 0;
+  return window.innerWidth;
+}
+
 export function useResponsive() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(0);
+  const [isMobile, setIsMobile] = useState(getIsMobile);
+  const [windowWidth, setWindowWidth] = useState(getWindowWidth);
 
   useEffect(() => {
     const handleResize = () => {
@@ -11,9 +21,6 @@ export function useResponsive() {
       setIsMobile(width < 768);
     };
 
-    // Initial check
-    handleResize();
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -21,6 +28,6 @@ export function useResponsive() {
   return {
     isMobile,
     windowWidth,
-    albumSize: isMobile ? 170 : 140, // Compacto para caber sem scroll
+    albumSize: isMobile ? 170 : 140,
   };
 }

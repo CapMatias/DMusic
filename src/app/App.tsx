@@ -32,7 +32,8 @@ export default function App() {
       const middleIndex = Math.floor(songs.length / 2);
       const song = songs[middleIndex];
       setSelectedSong(song);
-      setIsPlaying(true);
+      const isMobile = window.innerWidth < 768;
+      setIsPlaying(!isMobile);
     }
   }, [songs, selectedSong, setSelectedSong, setIsPlaying]);
 
@@ -80,8 +81,9 @@ export default function App() {
         background: 'transparent',
         zIndex: 1,
         position: 'relative',
-        width: '100vw',
-        height: '100vh',
+        width: '100%',
+        height: '100%',
+        minHeight: '100dvh',
         isolation: 'isolate',
         overflowX: 'hidden'
       }}

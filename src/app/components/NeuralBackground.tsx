@@ -75,6 +75,8 @@ export function NeuralBackground() {
 
     const dpr = Math.min(window.devicePixelRatio, 2);
     const pointer = { x: 0, y: 0, tX: 0, tY: 0 };
+    let animFrameId: number;
+    let stopped = false;
 
     const gl = canvasEl.getContext('webgl') || canvasEl.getContext('experimental-webgl');
     if (!gl) return;
@@ -128,6 +130,7 @@ export function NeuralBackground() {
     }
 
     function render() {
+      if (stopped) return;
       const t = performance.now();
       pointer.x += (pointer.tX - pointer.x) * 0.2;
       pointer.y += (pointer.tY - pointer.y) * 0.2;
@@ -137,17 +140,24 @@ export function NeuralBackground() {
       gl!.uniform1f(uniforms.u_scroll_progress, window.scrollY / (2 * window.innerHeight));
 
       gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4);
-      requestAnimationFrame(render);
+      animFrameId = requestAnimationFrame(render);
     }
+
+    const handlePointerMove = (e: PointerEvent) => { pointer.tX = e.clientX; pointer.tY = e.clientY; };
+    const handleTouchMove = (e: TouchEvent) => { pointer.tX = e.touches[0].clientX; pointer.tY = e.touches[0].clientY; };
 
     resize();
     window.addEventListener('resize', resize);
-    window.addEventListener('pointermove', (e) => { pointer.tX = e.clientX; pointer.tY = e.clientY; });
-    window.addEventListener('touchmove', (e) => { pointer.tX = e.touches[0].clientX; pointer.tY = e.touches[0].clientY; });
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
     render();
 
     return () => {
+      stopped = true;
+      cancelAnimationFrame(animFrameId);
       window.removeEventListener('resize', resize);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('touchmove', handleTouchMove);
     };
   }, []);
 
