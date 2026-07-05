@@ -154,7 +154,7 @@ export default function App() {
               getCover={getCover}
             />
             
-            {selectedSong && (
+            {selectedSong && selectedSong.musicPath && (
               <div className="mt-6 md:mt-6 text-center relative" style={{ zIndex: 250 }}>
                 <div className="bg-transparent p-1 md:p-2">
                   <h2 className="text-lg md:text-xl font-light mb-1 md:mb-2 text-white drop-shadow-lg">

@@ -31,7 +31,7 @@ export function Player({ musicPath, onSongEnd, autoPlay }: PlayerProps) {
     setDisplayTime(0);
     setDuration(0);
 
-    const audio = new Audio(import.meta.env.BASE_URL + musicPath.replace(/^\//, ''));
+    const audio = new Audio(import.meta.env.BASE_URL + (musicPath || '').replace(/^\//, ''));
     audio.preload = 'auto';
     audioRef.current = audio;
 
