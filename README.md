@@ -1,12 +1,10 @@
-# 🎵 Dmusic
+# Dmusic
 
-Dmusic é um player de música imersivo inspirado na experiência clássica do iPod Cover Flow, combinando design moderno com alta performance.
+Player de música imersivo inspirado na experiência clássica do iPod Cover Flow, com fundo neural WebGL e reprodução local de áudio.
 
-O design original foi criado no Figma: [Dmusic Design](https://www.figma.com/design/i88lXATp2VpKUPBTtcErAK/Dmusic)
+Design original criado no Figma: [Dmusic Design](https://www.figma.com/design/i88lXATp2VpKUPBTtcErAK/Dmusic)
 
-## 🚀 Como Executar
-
-Siga os passos abaixo para rodar o projeto localmente:
+## Como Executar
 
 1. **Instale as dependências:**
    ```bash
@@ -21,25 +19,24 @@ Siga os passos abaixo para rodar o projeto localmente:
 3. **Acesse no navegador:**
    Abra o link fornecido pelo Vite (geralmente `http://localhost:5173`).
 
-## ✨ Funcionalidades e Otimizações
+## Funcionalidades
 
-O projeto foi aprimorado com as seguintes tecnologias e técnicas de engenharia de software:
+- **Cover Flow 3D** com navegação por drag/swipe e efeito de profundidade via CSS perspective
+- **Player local** com HTML5 Audio — reproduz arquivos MP3 diretamente da pasta `public/music/`
+- **Auto-play** — quando uma música termina, a próxima toca automaticamente
+- **Fundo neural WebGL** — efeito visual animado com shaders customizados
+- **Capas de álbuns** via API do iTunes Search
+- **Busca por músicas** com barra de pesquisa integrada
+- **Virtualização de lista** via `@tanstack/react-virtual` para performance com muitas músicas
+- **Persistência de sessão** — Zustand com `localStorage` para lembrar a última música
+- **Responsivo** — layout adaptado para desktop e mobile
 
-- **⚡ Performance de Renderização:** Implementação de **Virtualização de Lista** via `@tanstack/react-virtual`, permitindo a navegação fluida mesmo com milhares de músicas sem sobrecarregar o DOM.
-- **🧠 Gerenciamento de Estado Global:** Migração para **Zustand**, eliminando renderizações desnecessárias e organizando a lógica de reprodução e busca.
-- **🔍 Busca Inteligente (Fuzzy Search):** Integração com `Fuse.js` para permitir buscas tolerantes a erros de digitação em artistas, álbuns e músicas.
-- **💾 Persistência de Sessão:** Uso de `localStorage` para lembrar a última música selecionada e o estado do player após recarregar a página.
-- **🎨 UX Premium:** 
-  - Efeitos de **Skeleton Screen** durante o carregamento de capas.
-  - Notificações em tempo real via **Sonner**.
-  - Interface totalmente traduzida para **Português**.
-- **🌐 Integração de API:** Consumo dinâmico de capas de álbuns através da API do iTunes da Apple.
-
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias
 
 - **Frontend:** React, TypeScript, Vite
 - **Estilização:** Tailwind CSS
 - **Estado:** Zustand
 - **Virtualização:** TanStack Virtual
-- **Busca:** Fuse.js
 - **Feedback:** Sonner
+- **Background:** WebGL/GLSL shaders
+- **Áudio:** HTML5 Audio API
