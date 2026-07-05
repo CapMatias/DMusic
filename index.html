@@ -4,11 +4,26 @@
     <head>
       
       <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
       <title>Dmusic</title>
       
       <meta name="robots" content="noindex, nofollow" />
-      <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
+      <meta name="theme-color" content="#151912" />
+      <style>
+        html, body { height: 100%; margin: 0; background: #151912; }
+        #root { height: 100%; }
+        #root:empty::after {
+          content: '';
+          display: block;
+          width: 24px; height: 24px;
+          margin: calc(50vh - 12px) auto 0;
+          border: 2px solid rgba(255,255,255,0.2);
+          border-top-color: #fff;
+          border-radius: 50%;
+          animation: spin .6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+      </style>
       
     </head>
 
@@ -19,4 +34,3 @@
       
     </body>
   </html>
-  

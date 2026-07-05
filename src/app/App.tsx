@@ -76,7 +76,7 @@ export default function App() {
 
   return (
     <div 
-      className="h-screen text-white overflow-hidden relative"
+      className="h-full text-white relative"
       style={{
         background: 'transparent',
         zIndex: 1,
@@ -85,7 +85,8 @@ export default function App() {
         height: '100%',
         minHeight: '100dvh',
         isolation: 'isolate',
-        overflowX: 'hidden'
+        overflowX: 'hidden',
+        overflowY: 'auto',
       }}
     >
       <NeuralBackground />

@@ -70,6 +70,8 @@ export function NeuralBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    if (window.innerWidth < 768) return;
+
     const canvasEl = canvasRef.current;
     if (!canvasEl) return;
 
