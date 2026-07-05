@@ -31,8 +31,9 @@ export function Player({ musicPath, onSongEnd, autoPlay }: PlayerProps) {
     setDisplayTime(0);
     setDuration(0);
 
-    const audio = new Audio(import.meta.env.BASE_URL + (musicPath || '').replace(/^\//, ''));
-    audio.preload = 'auto';
+    const audio = new Audio();
+    audio.preload = 'metadata';
+    audio.src = import.meta.env.BASE_URL + (musicPath || '').replace(/^\//, '');
     audioRef.current = audio;
 
     const updateUI = () => {
@@ -46,7 +47,7 @@ export function Player({ musicPath, onSongEnd, autoPlay }: PlayerProps) {
       }
     };
 
-    audio.addEventListener('canplay', () => {
+    const onCanPlay = () => {
       setIsReady(true);
       setDuration(audio.duration);
       if (autoPlayRef.current) {
@@ -55,6 +56,13 @@ export function Player({ musicPath, onSongEnd, autoPlay }: PlayerProps) {
           rafRef.current = requestAnimationFrame(updateUI);
         }).catch(() => {});
       }
+    };
+
+    audio.addEventListener('canplay', onCanPlay);
+    audio.addEventListener('loadeddata', onCanPlay);
+    audio.addEventListener('error', () => {
+      setIsReady(true);
+      setDuration(0);
     });
 
     audio.addEventListener('play', () => {
